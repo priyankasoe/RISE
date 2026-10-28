@@ -1,4 +1,4 @@
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -9,6 +9,9 @@ import Workshops from './pages/Workshops';
 import Sponsors from './pages/Sponsors';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
+// Developer-only, so its extra components load only when /lab is opened.
+const Lab = lazy(() => import('./pages/Lab'));
 
 function App() {
   return (
@@ -23,6 +26,8 @@ function App() {
           <Route path="/sponsors" element={<Sponsors />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/lab" element={<Suspense fallback={null}><Lab /></Suspense>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </Router>

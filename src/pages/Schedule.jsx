@@ -1,62 +1,84 @@
-import React from 'react';
-import { Clock } from 'lucide-react';
+import { capillary } from 'asciify-engine/kit';
+import PageHeader from '../components/PageHeader';
+import SectionHead from '../components/SectionHead';
+import { EVENT } from '../data/event';
 
-const Schedule = () => {
-  const scheduleItems = [
-    { time: '08:00 AM', title: 'Check-in & Breakfast', type: 'general' },
-    { time: '09:00 AM', title: 'Opening Remarks & Keynote', type: 'presentation' },
-    { time: '10:00 AM', title: 'Expo & Booths Open', type: 'general' },
-    { time: '10:30 AM', title: 'Technical Challenge 1', type: 'challenge' },
-    { time: '11:30 AM', title: 'Professor Talk', type: 'presentation' },
-    { time: '12:30 PM', title: 'Networking Lunch', type: 'general' },
-    { time: '01:30 PM', title: 'Company Presentations (Tech deep-dives)', type: 'presentation' },
-    { time: '02:30 PM', title: 'Challenge 2', type: 'challenge' },
-    { time: '03:30 PM', title: 'Workshop', type: 'workshop' },
-    { time: '05:00 PM', title: 'Closing Ceremony & Awards', type: 'general' },
-  ];
+// Add confirmed sessions here, e.g. { time: '9:00 AM', title: 'Opening remarks', place: 'Room TBA' }.
+// While this is empty the page shows the planned program without times.
+const SCHEDULE = [];
 
-  const getTypeColor = (type) => {
-    switch(type) {
-      case 'presentation': return 'var(--color-cyan)';
-      case 'challenge': return 'var(--color-purdue-gold)';
-      case 'workshop': return '#9d4edd';
-      default: return '#aaa';
-    }
-  };
+const PLANNED = [
+  'Opening remarks and keynote',
+  'Expo floor: booths, posters, and live demos',
+  'Faculty, research, and company presentations',
+  'Technical challenges in hardware, electrical, and software',
+  'Workshops',
+  'Networking sessions with companies and labs',
+  'Closing and challenge prizes',
+];
 
-  return (
-    <div className="container section animate-fade-in">
-      <div className="text-center mb-8">
-        <h1 style={{ fontSize: '3rem' }}>Tentative Event <span className="gold-text">Schedule</span></h1>
-        <p style={{ color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
-          Plan your day at RISE 3. Explore a mix of keynotes, interactive challenges, and industry networking.
-        </p>
-      </div>
+const Schedule = () => (
+  <>
+    <title>{`Schedule · RISE ${EVENT.year}`}</title>
+    <div className="opening">
+      <PageHeader title="Schedule" preset={capillary} interactive>
+        {SCHEDULE.length === 0 && (
+          <p>
+            Session times haven't been set yet. The full schedule will be posted here once
+            it's final, and announced on Instagram at{' '}
+            <a className="text-link" href={EVENT.instagram.url} target="_blank" rel="noreferrer">
+              {EVENT.instagram.handle}
+            </a>.
+          </p>
+        )}
+      </PageHeader>
 
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        {scheduleItems.map((item, index) => (
-          <div key={index} className="glass-panel" style={{ display: 'flex', gap: '1.5rem', marginBottom: '1rem', padding: '1.5rem', alignItems: 'center' }}>
-            <div style={{ minWidth: '120px', fontWeight: 600, color: getTypeColor(item.type), display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Clock size={16} /> {item.time}
+      <section className="section">
+        <div className="container split">
+          {SCHEDULE.length > 0 ? (
+            <div>
+              <SectionHead title="Sessions" />
+              <ol className="timetable">
+                {SCHEDULE.map((item) => (
+                  <li key={`${item.time}-${item.title}`}>
+                    <span className="timetable__time">{item.time}</span>
+                    <span className="timetable__title">{item.title}</span>
+                    {item.place && <span className="timetable__place">{item.place}</span>}
+                  </li>
+                ))}
+              </ol>
             </div>
-            <div style={{ flexGrow: 1 }}>
-              <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{item.title}</h3>
+          ) : (
+            <div>
+              <SectionHead title="What's planned" tag="Provisional">
+                <p>The day will include the following. Order, times and rooms are not final.</p>
+              </SectionHead>
+              <ul className="plain-list">
+                {PLANNED.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+              <p className="muted note">
+                Some workshops and company events may take place earlier in the same week.
+              </p>
             </div>
-            <div className="md-hide" style={{
-              padding: '0.25rem 0.75rem',
-              borderRadius: '20px',
-              fontSize: '0.75rem',
-              textTransform: 'uppercase',
-              border: `1px solid ${getTypeColor(item.type)}`,
-              color: getTypeColor(item.type)
-            }}>
-              {item.type}
-            </div>
-          </div>
-        ))}
-      </div>
+          )}
+
+          <aside className="aside">
+            <p className="meta">Where</p>
+            <p>
+              {EVENT.venue}<br />
+              {EVENT.university}<br />
+              {EVENT.address}
+            </p>
+            <p className="meta">When</p>
+            <p><time dateTime={EVENT.isoDate}>{EVENT.date}</time></p>
+            <a className="arrow-link" href={EVENT.mapUrl} target="_blank" rel="noreferrer">
+              Open in Google Maps
+            </a>
+          </aside>
+        </div>
+      </section>
     </div>
-  );
-};
+  </>
+);
 
 export default Schedule;

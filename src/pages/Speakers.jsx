@@ -1,27 +1,74 @@
-import React from 'react';
-import { CalendarClock } from 'lucide-react';
+import { constellation } from 'asciify-engine/kit';
+import PageHeader from '../components/PageHeader';
+import SectionHead from '../components/SectionHead';
+import { EVENT } from '../data/event';
 
-const Speakers = () => {
-  return (
-    <div className="container section animate-fade-in">
-      <div className="text-center mb-8">
-        <h1 style={{ fontSize: '3rem' }}>Speakers & <span className="cyan-text">Companies</span></h1>
-        <p style={{ color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
-          More details will be announced soon.
+// Add confirmed speakers as { name, role, affiliation, bio }.
+const SPEAKERS = [];
+
+const Speakers = () => (
+  <>
+    <title>{`Speakers · RISE ${EVENT.year}`}</title>
+    <div className="opening">
+      <PageHeader title="Talks and panels" preset={constellation}>
+        <p>
+          {SPEAKERS.length > 0
+            ? `Confirmed speakers for ${EVENT.day}.`
+            : `Speakers and participating companies for ${EVENT.year} haven't been announced yet. We'll list them here as they're confirmed.`}
         </p>
-      </div>
+      </PageHeader>
 
-      <div className="glass-panel" style={{ padding: '4rem 2rem', textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
-        <div style={{ width: '88px', height: '88px', borderRadius: '50%', background: 'rgba(0, 201, 255, 0.12)', margin: '0 auto 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CalendarClock size={44} className="cyan-text" />
+      <section className="section">
+        <div className="container">
+          {SPEAKERS.length > 0 ? (
+            <>
+              <SectionHead title="Speakers" />
+              <ul className="people">
+                {SPEAKERS.map((s) => (
+                  <li key={s.name}>
+                    <h3>{s.name}</h3>
+                    <p className="people__role">{s.role}, {s.affiliation}</p>
+                    {s.bio && <p>{s.bio}</p>}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <div className="statement">
+              <h2>Speakers are being confirmed</h2>
+              <p className="tag">To be announced</p>
+              <p>
+                We'll post names here as they're confirmed, and share each announcement on
+                Instagram at{' '}
+                <a className="text-link" href={EVENT.instagram.url} target="_blank" rel="noreferrer">
+                  {EVENT.instagram.handle}
+                </a>.
+              </p>
+            </div>
+          )}
         </div>
-        <h2 style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>TBD</h2>
-        <p style={{ color: '#ccc', maxWidth: '460px', margin: '0 auto' }}>
-          Speakers and participating companies are coming soon.
-        </p>
-      </div>
+      </section>
     </div>
-  );
-};
+
+    <section className="section section--rule">
+      <div className="container split">
+        <div>
+          <SectionHead title="At past events" />
+          <p>
+            Previous RISE programs opened with welcome remarks and included roundtables and
+            panels where speakers from research and industry took questions from students.
+          </p>
+        </div>
+        <aside className="aside">
+          <p className="meta">Want to speak?</p>
+          <p>
+            Email <a className="text-link" href={`mailto:${EVENT.email}`}>{EVENT.email}</a>{' '}
+            with a short description of your talk.
+          </p>
+        </aside>
+      </div>
+    </section>
+  </>
+);
 
 export default Speakers;

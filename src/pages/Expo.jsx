@@ -1,49 +1,66 @@
-import React from 'react';
-import { Box, Network, MonitorPlay } from 'lucide-react';
+import { swell } from 'asciify-engine/kit';
+import PageHeader from '../components/PageHeader';
+import SectionHead from '../components/SectionHead';
+import { EVENT } from '../data/event';
 
-const Expo = () => {
-  return (
-    <div className="container section animate-fade-in">
-      <div className="text-center mb-8">
-        <h1 style={{ fontSize: '3rem' }}>The <span className="gold-text">Expo</span></h1>
-        <p style={{ color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
-          The core of RISE 3. Explore booths, connect with research teams, and discover the latest in robotics technology.
+const boothMail = `mailto:${EVENT.email}?subject=${encodeURIComponent(`RISE ${EVENT.year} booth`)}`;
+
+const Expo = () => (
+  <>
+    <title>{`Expo · RISE ${EVENT.year}`}</title>
+    <div className="opening">
+      <PageHeader title="The expo floor" preset={swell}>
+        <p>
+          Most of RISE happens here: tables, posters, and live demos from student teams,
+          research labs, and companies.
         </p>
-      </div>
+      </PageHeader>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="glass-panel">
-          <Box size={40} className="gold-text mb-2" />
-          <h3>Booths & Displays</h3>
-          <p style={{ color: '#aaa' }}>
-            Organizations are provided table space and poster displays to showcase their research, student projects, and commercial products directly to attendees.
-          </p>
-        </div>
-        <div className="glass-panel">
-          <MonitorPlay size={40} className="cyan-text mb-2" />
-          <h3>Interactive Demos</h3>
-          <p style={{ color: '#aaa' }}>
-            Optional, dedicated demonstration space is available by request for live robotics hardware and software showcases.
-          </p>
-        </div>
-        <div className="glass-panel">
-          <Network size={40} className="gold-text mb-2" />
-          <h3>Presentations & Networking</h3>
-          <p style={{ color: '#aaa' }}>
-            Companies and research groups can host dedicated networking sessions and specialized presentations both during RISE day and throughout RISE week.
-          </p>
-        </div>
-      </div>
+      <section className="section">
+        <div className="container columns columns--divided">
+          <div>
+            <SectionHead title="For visitors" />
+            <p>
+              Walk the floor, watch robots run, and ask the people who built them how they work.
+              Many exhibitors are student teams, so it's a good way to find a project to join.
+            </p>
+            <p>
+              Companies and research groups have tables too. If you're looking for an internship
+              or research position, bring a resume.
+            </p>
+          </div>
 
-      <div className="glass-panel" style={{ background: 'rgba(206, 184, 136, 0.05)', border: '1px solid var(--color-purdue-gold)' }}>
-        <h2 style={{ color: 'var(--color-purdue-gold)', marginBottom: '1rem' }}>Interested in showcasing?</h2>
-        <p style={{ color: '#ccc', marginBottom: '2rem' }}>
-          Join the ranks of top organizations presenting at RISE. Securing a booth grants direct access to our 500+ attendees, consisting of highly motivated engineering students and researchers.
-        </p>
-        <a href="/contact" className="btn btn-primary">Request Booth Information</a>
-      </div>
+          <div>
+            <SectionHead title="For exhibitors" />
+            <p>
+              Every participating organization gets a table and space for a poster. If you're
+              bringing hardware that needs room to move, ask for demo space when you sign up.
+            </p>
+            <p>
+              Companies and research groups can also request a presentation slot or a networking
+              session with students, either on {EVENT.day} or during that week.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
-  );
-};
+
+    <section className="section section--raised" aria-labelledby="table-title">
+      <div className="container">
+        <SectionHead id="table-title" title="Getting a table" />
+        <ol className="steps">
+          <li>
+            Email <a className="text-link" href={boothMail}>{EVENT.email}</a>.
+          </li>
+          <li>Include your organization's name and what you plan to show.</li>
+          <li>If your hardware needs room to move, ask for demo space.</li>
+        </ol>
+        <p className="muted note">
+          Participating teams, labs, and companies will be listed once they're confirmed.
+        </p>
+      </div>
+    </section>
+  </>
+);
 
 export default Expo;

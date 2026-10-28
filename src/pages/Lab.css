@@ -1,0 +1,47 @@
+/* Styles for the developer-only component lab (/lab). Loaded with the lab's
+   own chunk, so public pages don't download them. */
+
+/* Character tabs: the kit glides the thumb from --tabs-* and draws a row of
+   characters along its foot, between the thumb and the labels. Square cells. */
+.char-tabs { position: relative; isolation: isolate; display: flex; }
+.char-tabs__thumb {
+  position: absolute;
+  z-index: -2;
+  left: var(--tabs-x);
+  top: var(--tabs-y);
+  width: var(--tabs-w);
+  height: var(--tabs-h);
+  background: var(--surface-2);
+  border-top: 2px solid var(--accent);
+}
+.char-tabs [role='tab'] {
+  position: relative;
+  z-index: 2;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color var(--fast) var(--ease);
+}
+.char-tabs [role='tab']:hover { color: var(--text); }
+.char-tabs [role='tab'][aria-selected='true'] { color: var(--text); }
+.char-tabs--row { flex-wrap: nowrap; overflow-x: auto; border-bottom: 1px solid var(--rule); max-width: 100%; }
+.char-tabs--row [role='tab'] { min-height: 44px; padding: 0.5rem 0.9rem 0.75rem; font: 500 0.8125rem var(--font-mono); }
+
+/* ---------- Component lab (/lab, developer only) ---------- */
+
+.lab-stage { position: relative; border: 1px solid var(--rule); background: var(--paper); }
+.lab-stage--morph { aspect-ratio: 16 / 7; background: var(--accent); }
+.lab-stage__counter { position: absolute; right: 1rem; bottom: 0.75rem; margin: 0; font: 500 0.8125rem var(--font-mono); color: var(--on-accent); }
+.lab-stage--deck { display: grid; place-items: center; padding: 2.5rem 1rem; }
+.lab-deck { position: relative; width: min(100%, 420px); aspect-ratio: 3 / 2; }
+.lab-deck__card { position: absolute; inset: 0; overflow: hidden; }
+.lab-deck__card img { width: 100%; height: 100%; object-fit: cover; }
+.lab-actions { margin-top: 1rem; }
+.lab-figure { margin-top: 1.5rem; font: 500 1.5rem var(--font-mono); color: var(--accent); }
+.lab-actions .meta { margin: 0 0 0 0.5rem; }
+.lab-post { display: flex; gap: 1.5rem; align-items: center; max-width: 36rem; padding: 1.5rem; border: 1px solid var(--rule); background: var(--surface); }
+.lab-post img { width: 96px; height: 96px; }
+.lab-deploy { display: grid; gap: 1.25rem; justify-items: start; max-width: 40rem; padding: 1.75rem; border: 1px solid var(--rule); background: var(--surface); }
+.lab-deploy__orb { display: block; width: 104px; height: 104px; }
